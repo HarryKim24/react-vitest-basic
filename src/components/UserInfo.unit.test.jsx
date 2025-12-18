@@ -1,10 +1,17 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import UserInfo from './UserInfo'
+import * as userApi from '../api/userApi'
 
-describe('UserInfo (MSW)', () => {
+vi.mock('../api/userApi');
+
+describe('UserInfo 컴포넌트', () => {
   it('API 응답으로 받은 유저 이름을 표시한다', async () => {
+    vi.spyOn(userApi, 'fetchUser').mockResolvedValue({
+      name: 'Tom',
+    })
+
     render(<UserInfo />);
     const user = userEvent.setup();
 
@@ -13,8 +20,8 @@ describe('UserInfo (MSW)', () => {
     )
 
     expect(
-      await screen.findByText(/user:\s*tom/i)
-    ).toBeInTheDocument()
+      await screen.findByText('User: Tom')
+    ).toBeInTheDocument();
   });
   
-})
+});
