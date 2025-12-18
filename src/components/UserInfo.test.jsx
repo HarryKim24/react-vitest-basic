@@ -25,3 +25,19 @@ describe('UserInfo 컴포넌트', () => {
   });
   
 });
+
+describe('UserInfo (MSW)', () => {
+  it('API 응답으로 받은 유저 이름을 표시한다', async () => {
+    render(<UserInfo />);
+    const user = userEvent.setup();
+
+    await user.click(
+      screen.getByRole('button', { name: 'Load User' })
+    )
+
+    expect(
+      await screen.findByText('user: Tom')
+    ).toBeInTheDocument()
+  });
+  
+})
