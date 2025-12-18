@@ -4,9 +4,16 @@ const LoginForm = () => {
 
   const [email, setEmail] = useState('');
   const [submittedEmail, setSubmittedEmail] = useState(null);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!email) {
+      setError('Email is required');
+      return
+    }
+    setError('');
     setSubmittedEmail(email);
   }
 
@@ -20,6 +27,9 @@ const LoginForm = () => {
       />
       <button type="submit">Submit</button>
 
+      {error && (
+        <p role="alert" style={{ color: 'red' }}>{error}</p>
+      )}
       {submittedEmail && (
         <p>Submitted: {submittedEmail}</p>
       )}

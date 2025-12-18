@@ -19,4 +19,20 @@ describe('LoginForm 컴포넌트', () => {
     ).toBeInTheDocument()
   });
   
+  it('이메일 없이 제출하면 에러가 표시되고 결과는 나오지 않는다', async () => {
+    render(<LoginForm />);
+    const user = userEvent.setup();
+
+    await user.click(
+      screen.getByRole('button', { name: 'Submit' })
+    )
+
+    expect(
+      screen.getByRole('alert')
+    ).toHaveTextContent('Email is required')
+
+    expect(
+      screen.queryByText(/Submitted:/)
+    ).not.toBeInTheDocument()
+  })
 })
